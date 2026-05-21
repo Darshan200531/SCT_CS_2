@@ -46,6 +46,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadEncrypted = document.getElementById('download-encrypted');
     const downloadDecrypted = document.getElementById('download-decrypted');
     
+    // Theme Toggle Handler
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const sunIcon = themeToggleBtn.querySelector('.sun-icon');
+    const moonIcon = themeToggleBtn.querySelector('.moon-icon');
+
+    // Load persisted theme preference
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        
+        if (isLight) {
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+            localStorage.setItem('theme', 'light');
+        } else {
+            sunIcon.classList.remove('hidden');
+            moonIcon.classList.add('hidden');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+    
     // Inspector HUD Elements
     const inspectorCoords = document.getElementById('inspector-coords');
     const magnifierGrid = document.getElementById('magnifier-grid');

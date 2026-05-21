@@ -30,6 +30,261 @@
     --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+/* Light Theme Variables */
+.light-theme {
+    --bg-darker: #f4f6fa;
+    --bg-dark: #ffffff;
+    --bg-card: rgba(255, 255, 255, 0.75);
+    --border-color: rgba(99, 114, 255, 0.16);
+    --border-glow: rgba(99, 114, 255, 0.32);
+    
+    /* Neutral Text */
+    --text-primary: #121829;
+    --text-secondary: #4e5c8b;
+    --text-muted: #8392b5;
+    
+    /* Neon Accents adapted for light mode readability & premium contrast */
+    --cyan: #008fa8;
+    --cyan-glow: rgba(0, 143, 168, 0.2);
+    --violet: #6b00d6;
+    --violet-glow: rgba(107, 0, 214, 0.2);
+    --ruby: #d6006b;
+    --ruby-glow: rgba(214, 0, 107, 0.2);
+    --toxic: #28a00a;
+    --toxic-glow: rgba(40, 160, 10, 0.2);
+}
+
+/* Theme Toggle Button Styling */
+.theme-toggle {
+    background: rgba(13, 17, 39, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cyan);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.theme-toggle:hover {
+    border-color: var(--cyan);
+    color: var(--text-primary);
+    box-shadow: 0 0 12px var(--cyan-glow);
+    transform: translateY(-2px);
+}
+
+.theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    transition: var(--transition-smooth);
+}
+
+.theme-toggle:hover svg {
+    transform: rotate(15deg) scale(1.1);
+}
+
+.light-theme .theme-toggle {
+    background: rgba(255, 255, 255, 0.95);
+    color: #e09010; /* Sun-colored in light mode */
+    box-shadow: 0 4px 12px rgba(99, 114, 255, 0.08);
+    border-color: rgba(99, 114, 255, 0.2);
+}
+
+.light-theme .theme-toggle:hover {
+    border-color: #e09010;
+    box-shadow: 0 0 12px rgba(224, 144, 16, 0.3);
+    color: #bd7302;
+}
+
+/* Light Theme Overrides & Refinements */
+.light-theme .app-header {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 32px 0 rgba(99, 114, 255, 0.06);
+    border-color: rgba(99, 114, 255, 0.18);
+}
+
+.light-theme .cyber-grid {
+    background-image: 
+        linear-gradient(rgba(99, 114, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 114, 255, 0.04) 1px, transparent 1px);
+}
+
+.light-theme .glow-orb {
+    opacity: 0.07;
+}
+
+.light-theme .panel {
+    box-shadow: 0 12px 40px 0 rgba(99, 114, 255, 0.04);
+}
+
+.light-theme .panel:hover {
+    box-shadow: 0 16px 48px 0 rgba(99, 114, 255, 0.08);
+}
+
+.light-theme .form-control {
+    background: rgba(255, 255, 255, 0.95);
+    color: #121829;
+    border-color: rgba(99, 114, 255, 0.22);
+}
+
+.light-theme .form-control:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 10px rgba(0, 143, 168, 0.18);
+}
+
+.light-theme select option {
+    background-color: #ffffff;
+    color: #121829;
+}
+
+.light-theme .upload-zone {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(99, 114, 255, 0.25);
+}
+
+.light-theme .upload-zone:hover, .light-theme .upload-zone.dragover {
+    background: rgba(0, 143, 168, 0.04);
+    border-color: var(--cyan);
+}
+
+.light-theme .btn-secondary {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(99, 114, 255, 0.22);
+    color: #4e5c8b;
+}
+
+.light-theme .btn-secondary:hover:not(:disabled) {
+    background: rgba(99, 114, 255, 0.08);
+    border-color: rgba(99, 114, 255, 0.4);
+    color: #121829;
+    box-shadow: 0 4px 15px rgba(99, 114, 255, 0.08);
+}
+
+.light-theme .canvas-card {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 6px 18px rgba(99, 114, 255, 0.04);
+}
+
+.light-theme .canvas-card-header {
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom-color: rgba(99, 114, 255, 0.12);
+}
+
+.light-theme .canvas-card-footer {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.light-theme .canvas-container canvas {
+    background-image: 
+        linear-gradient(45deg, #e6ebf5 25%, transparent 25%), 
+        linear-gradient(-45deg, #e6ebf5 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #e6ebf5 75%), 
+        linear-gradient(-45deg, transparent 75%, #e6ebf5 75%);
+    box-shadow: 0 8px 24px rgba(99, 114, 255, 0.08);
+}
+
+.light-theme #canvas-focused {
+    background-image: 
+        linear-gradient(45deg, #e6ebf5 25%, transparent 25%), 
+        linear-gradient(-45deg, #e6ebf5 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #e6ebf5 75%), 
+        linear-gradient(-45deg, transparent 75%, #e6ebf5 75%);
+    box-shadow: 0 10px 30px rgba(99, 114, 255, 0.12);
+}
+
+.light-theme .algo-description {
+    background: rgba(255, 255, 255, 0.8);
+    border-left-color: var(--cyan);
+    color: #4e5c8b;
+}
+
+.light-theme .edu-math {
+    background: #eaf0fa;
+    border-color: rgba(99, 114, 255, 0.15);
+    color: var(--cyan);
+}
+
+.light-theme .strength-bar {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.light-theme .active-canvas-frame {
+    background: #e2e8f5;
+}
+
+.light-theme .pixel-magnifier-grid {
+    border-color: rgba(99, 114, 255, 0.22);
+    box-shadow: 0 4px 16px rgba(99, 114, 255, 0.08);
+}
+
+.light-theme .ch-progress {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.light-theme .processing-overlay {
+    background: rgba(240, 243, 250, 0.88);
+}
+
+.light-theme .loader-box {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 20px 50px rgba(99, 114, 255, 0.12);
+}
+
+.light-theme .loader-box p {
+    color: var(--text-secondary);
+}
+
+.light-theme .loader-progress-bar {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.light-theme .inspector-hud {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 12px 36px rgba(99, 114, 255, 0.1);
+    border-color: rgba(99, 114, 255, 0.2);
+}
+
+.light-theme .hud-header {
+    background: rgba(99, 114, 255, 0.06);
+    border-bottom-color: rgba(99, 114, 255, 0.12);
+}
+
+.light-theme .view-tabs {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(99, 114, 255, 0.2);
+}
+
+.light-theme .tab-btn.active {
+    background: #ffffff;
+    color: var(--cyan);
+    border-color: rgba(0, 143, 168, 0.2);
+}
+
+.light-theme .active-viewport-header select {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(99, 114, 255, 0.2);
+}
+
+.light-theme .edu-card {
+    background: rgba(255, 255, 255, 0.65);
+    box-shadow: 0 6px 18px rgba(99, 114, 255, 0.04);
+}
+
+.light-theme .edu-section {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 24px rgba(99, 114, 255, 0.03);
+}
+
+.light-theme .warning-box {
+    background: rgba(214, 0, 107, 0.05);
+    border-left-color: var(--ruby);
+}
+
+
 /* Base Settings & Layout Reset */
 * {
     box-sizing: border-box;
