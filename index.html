@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelCrypt - Visual Cryptography & Pixel Manipulation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        <path d="M12 15v3"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1>PIXEL<span>CRYPT</span></h1>
+                    <p class="subtitle">Pixel Manipulation & Image Encryption Sandbox</p>
+                </div>
+            </div>
+            <div class="header-badges">
+                <span class="badge badge-secure">
+                    <span class="pulse-dot"></span>
+                    100% Client-Side
+                </span>
+                <span class="badge badge-version">v1.2.0</span>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="app-grid">
+            <!-- Sidebar: Controls -->
+            <section class="sidebar panel">
+                <div class="panel-header">
+                    <h2><span class="step-num">01</span> Configuration</h2>
+                </div>
+                <div class="panel-body">
+                    <!-- Image Upload -->
+                    <div class="control-group">
+                        <label class="control-label">Source Image</label>
+                        <div class="upload-zone" id="drop-zone">
+                            <input type="file" id="file-input" accept="image/*" class="file-input">
+                            <div class="upload-prompt" id="upload-prompt">
+                                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                <span>Drag & Drop or <span class="highlight">Browse</span></span>
+                                <span class="format-note">Supports PNG, JPG, WEBP (Lossless PNG recommended)</span>
+                            </div>
+                            <div class="upload-preview hidden" id="upload-preview-container">
+                                <img id="preview-thumbnail" src="" alt="Thumbnail">
+                                <div class="preview-info">
+                                    <span class="file-name" id="preview-file-name">image.png</span>
+                                    <span class="file-meta" id="preview-file-meta">800 × 600 • 245 KB</span>
+                                </div>
+                                <button type="button" class="btn-remove" id="btn-remove-image" title="Remove Image">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="demo-trigger">
+                            <span>Don't have an image?</span>
+                            <button type="button" class="btn-text" id="btn-load-demo">Load Futuristic Demo Pattern</button>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Selection -->
+                    <div class="control-group">
+                        <label for="algorithm-select" class="control-label">Encryption Algorithm</label>
+                        <div class="custom-select-wrapper">
+                            <select id="algorithm-select" class="form-control">
+                                <option value="xor-stream" selected>XOR Stream Cipher (Perfect Scramble)</option>
+                                <option value="pixel-shuffle">Block & Row Shuffling (Fisher-Yates)</option>
+                                <option value="caesar-math">Modular Additive (Pixel Caesar)</option>
+                                <option value="channel-swap">RGB Channel Permutation</option>
+                            </select>
+                        </div>
+                        <p class="algo-description" id="algo-desc">
+                            Uses a key-seeded stream generator to XOR every red, green, and blue color value. Perfect visual scrambling that is highly secure and fully reversible.
+                        </p>
+                    </div>
+
+                    <!-- Key Config -->
+                    <div class="control-group">
+                        <div class="label-with-action">
+                            <label for="crypto-key" class="control-label">Security Key / Passphrase</label>
+                            <button type="button" class="btn-text" id="btn-generate-key">Generate Key</button>
+                        </div>
+                        <div class="key-input-container">
+                            <input type="text" id="crypto-key" class="form-control key-input" value="SCT_CS_2_Key_#2026" placeholder="Enter key for encryption/decryption">
+                            <div class="key-strength" id="key-strength-indicator">
+                                <div class="strength-bar strong"></div>
+                                <span class="strength-text">Strong Key</span>
+                            </div>
+                        </div>
+                        <p class="field-note">The exact same key is mathematically required to decrypt the image back to its original state.</p>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="action-grid">
+                        <button type="button" class="btn btn-primary" id="btn-encrypt">
+                            <span class="btn-glow"></span>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            Encrypt Pixel Data
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="btn-decrypt" disabled>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            Decrypt Pixel Data
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visualizer Area -->
+            <section class="visualizer panel">
+                <div class="panel-header tab-header">
+                    <h2><span class="step-num">02</span> Pixel Sandbox Viewport</h2>
+                    <div class="view-tabs">
+                        <button class="tab-btn active" data-tab="grid-view">Comparison Grid</button>
+                        <button class="tab-btn" data-tab="single-view">Zoom Viewport</button>
+                    </div>
+                </div>
+                
+                <div class="panel-body canvas-panel-body">
+                    <!-- Tab Content: Comparison Grid -->
+                    <div class="tab-content active" id="grid-view">
+                        <div class="viewport-grid">
+                            <!-- Original Image Card -->
+                            <div class="canvas-card">
+                                <div class="canvas-card-header">
+                                    <span class="card-title">
+                                        <span class="dot dot-blue"></span>
+                                        Original Image
+                                    </span>
+                                    <span class="canvas-dimensions" id="orig-dim">-</span>
+                                </div>
+                                <div class="canvas-container">
+                                    <div class="canvas-placeholder" id="placeholder-orig">
+                                        <p>No image loaded</p>
+                                    </div>
+                                    <canvas id="canvas-original" class="hidden"></canvas>
+                                </div>
+                                <div class="canvas-card-footer">
+                                    <span>R, G, B Source Data</span>
+                                </div>
+                            </div>
+
+                            <!-- Encrypted Image Card -->
+                            <div class="canvas-card">
+                                <div class="canvas-card-header">
+                                    <span class="card-title animate-glow">
+                                        <span class="dot dot-red"></span>
+                                        Encrypted Output
+                                    </span>
+                                    <span class="canvas-dimensions" id="enc-dim">-</span>
+                                </div>
+                                <div class="canvas-container">
+                                    <div class="canvas-placeholder" id="placeholder-enc">
+                                        <p>Awaiting Encryption</p>
+                                    </div>
+                                    <canvas id="canvas-encrypted" class="hidden"></canvas>
+                                </div>
+                                <div class="canvas-card-footer">
+                                    <button class="btn-download" id="download-encrypted" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        Download PNG
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Decrypted Image Card -->
+                            <div class="canvas-card">
+                                <div class="canvas-card-header">
+                                    <span class="card-title">
+                                        <span class="dot dot-green"></span>
+                                        Decrypted Output
+                                    </span>
+                                    <span class="canvas-dimensions" id="dec-dim">-</span>
+                                </div>
+                                <div class="canvas-container">
+                                    <div class="canvas-placeholder" id="placeholder-dec">
+                                        <p>Awaiting Decryption</p>
+                                    </div>
+                                    <canvas id="canvas-decrypted" class="hidden"></canvas>
+                                </div>
+                                <div class="canvas-card-footer">
+                                    <button class="btn-download" id="download-decrypted" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        Download Restored
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Zoom Viewport -->
+                    <div class="tab-content" id="single-view">
+                        <div class="single-viewport-container">
+                            <div class="active-viewport-header">
+                                <select id="viewport-focus-select" class="form-control focus-select">
+                                    <option value="original">View Original Canvas</option>
+                                    <option value="encrypted" selected>View Encrypted Canvas</option>
+                                    <option value="decrypted">View Decrypted Canvas</option>
+                                </select>
+                                <span class="hint-text">Hover/Move mouse over the canvas to inspect microscopic pixel data.</span>
+                            </div>
+                            <div class="interactive-sandbox">
+                                <div class="active-canvas-frame">
+                                    <div id="single-canvas-placeholder" class="canvas-placeholder">
+                                        <p>Please load or generate an image</p>
+                                    </div>
+                                    <div class="canvas-scaler-wrapper">
+                                        <canvas id="canvas-focused" class="hidden"></canvas>
+                                    </div>
+                                </div>
+
+                                <!-- Pixel Inspector HUD -->
+                                <div class="inspector-hud">
+                                    <div class="hud-header">
+                                        <div class="hud-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="11" cy="11" r="8"></circle>
+                                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h3>PIXEL INSPECTOR</h3>
+                                            <span class="hud-coords" id="inspector-coords">X: 0, Y: 0</span>
+                                        </div>
+                                    </div>
+                                    <div class="hud-body">
+                                        <!-- Micro Lens Grid -->
+                                        <div class="pixel-magnifier-grid" id="magnifier-grid">
+                                            <!-- Will be filled by JS with zoom grid pixels -->
+                                        </div>
+                                        <!-- Color Values -->
+                                        <div class="pixel-channel-info">
+                                            <div class="channel-row">
+                                                <span class="ch-label ch-red">RED</span>
+                                                <span class="ch-val" id="val-r">0</span>
+                                                <div class="ch-progress"><div class="ch-progress-bar bg-red" id="bar-r" style="width: 0%"></div></div>
+                                                <span class="ch-bin" id="bin-r">00000000</span>
+                                            </div>
+                                            <div class="channel-row">
+                                                <span class="ch-label ch-green">GREEN</span>
+                                                <span class="ch-val" id="val-g">0</span>
+                                                <div class="ch-progress"><div class="ch-progress-bar bg-green" id="bar-g" style="width: 0%"></div></div>
+                                                <span class="ch-bin" id="bin-g">00000000</span>
+                                            </div>
+                                            <div class="channel-row">
+                                                <span class="ch-label ch-blue">BLUE</span>
+                                                <span class="ch-val" id="val-b">0</span>
+                                                <div class="ch-progress"><div class="ch-progress-bar bg-blue" id="bar-b" style="width: 0%"></div></div>
+                                                <span class="ch-bin" id="bin-b">00000000</span>
+                                            </div>
+                                            <div class="channel-row">
+                                                <span class="ch-label ch-hex">HEX</span>
+                                                <span class="ch-val hex-val" id="val-hex">#000000</span>
+                                                <div class="color-preview-box" id="color-preview"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Educational Cryptography Section -->
+        <section class="edu-section">
+            <div class="edu-header">
+                <h2>Behind the Mathematics: Visual Cryptography</h2>
+                <p>How does pixel manipulation scramble an image and reconstruct it perfectly?</p>
+            </div>
+            <div class="edu-grid">
+                <div class="edu-card">
+                    <div class="edu-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 7V4a2 2 0 0 1 2-2h3"></path>
+                            <path d="M20 7V4a2 2 0 0 0-2-2h-3"></path>
+                            <path d="M4 17v3a2 2 0 0 0 2 2h3"></path>
+                            <path d="M20 17v3a2 2 0 0 1-2 2h-3"></path>
+                            <line x1="9" y1="12" x2="15" y2="12"></line>
+                            <line x1="12" y1="9" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <h3>XOR (Exclusive OR) Operator</h3>
+                    <p>
+                        The XOR operator is a foundational building block in computer cryptography. It operates bit-by-bit: if the image bit and key bit are identical, it yields <code>0</code>; if they differ, it yields <code>1</code>.
+                    </p>
+                    <div class="edu-math">
+                        <div class="math-line">A ⊕ B = C (Scrambled)</div>
+                        <div class="math-line">C ⊕ B = A (Restored)</div>
+                    </div>
+                    <p class="edu-text">
+                        Because XOR is its own inverse, running the exact same XOR operation on the encrypted image with the same key restores the pixel channels perfectly!
+                    </p>
+                </div>
+
+                <div class="edu-card">
+                    <div class="edu-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                            <rect x="1" y="3" width="22" height="5" rx="1"></rect>
+                            <line x1="10" y1="12" x2="14" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h3>Permutation & Diffusion</h3>
+                    <p>
+                        Real cryptographic systems use both <strong>substitution</strong> (changing values) and <strong>permutation</strong> (shuffling positions).
+                    </p>
+                    <div class="edu-math">
+                        <div class="math-line">Block Shuffling</div>
+                        <div class="math-line">Seed: H(Key) → PRNG Sequence</div>
+                    </div>
+                    <p class="edu-text">
+                        In our tool, the <em>Block & Row Shuffling</em> algorithm uses a Pseudo-Random Number Generator seeded by your key to permute the rows and columns. Because the PRNG is fully deterministic, the exact same seed reconstructs the original order.
+                    </p>
+                </div>
+
+                <div class="edu-card">
+                    <div class="edu-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h3>Lossless vs. Lossy Formats</h3>
+                    <p>
+                        Image cryptography relies on exact 8-bit integer precision. If even a single bit of a single pixel is altered, the math breaks and the decryption will contain digital noise or fail.
+                    </p>
+                    <div class="warning-box">
+                        <span class="warning-title">CRITICAL DETAIL</span>
+                        <p>
+                            <strong>JPEG compression</strong> alters pixel values slightly to save space, breaking the encryption math. Always save and download encrypted images as lossless <strong>PNG</strong> files!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>PixelCrypt is an open-source visual cryptography education workbench. Developed in 2026.</p>
+            <p class="secured-client">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                Zero server communication. Your data remains strictly local in your browser memory.
+            </p>
+        </footer>
+    </div>
+
+    <!-- Processing Overlay -->
+    <div class="processing-overlay hidden" id="processing-overlay">
+        <div class="loader-box">
+            <div class="loader-ring">
+                <div></div><div></div><div></div><div></div>
+            </div>
+            <h3 id="loader-title">Scrambling Pixels...</h3>
+            <p id="loader-status">Running cryptographic operations</p>
+            <div class="loader-progress-bar">
+                <div class="progress-fill" id="loader-progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
